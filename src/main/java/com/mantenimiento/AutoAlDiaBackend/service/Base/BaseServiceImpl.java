@@ -1,7 +1,6 @@
 package com.mantenimiento.AutoAlDiaBackend.service.Base;
 
 import com.mantenimiento.AutoAlDiaBackend.model.BaseEntity;
-import com.mantenimiento.AutoAlDiaBackend.repository.Base.BaseRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -10,7 +9,7 @@ import java.util.Optional;
 
 @Transactional
 public abstract class BaseServiceImpl<T extends BaseEntity, ID> implements BaseService<T, ID> {
-
+    /*
     private BaseRepository<T, ID> repository;
 
     // Crear
@@ -53,4 +52,6 @@ public abstract class BaseServiceImpl<T extends BaseEntity, ID> implements BaseS
     public boolean existe(ID id){
         return repository.existsById(id);
     }
+
+     */
 }

@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface MantenimientoRepository extends BaseRepository<Mantenimiento, Long> {
+public interface MantenimientoRepository extends JpaRepository<Mantenimiento, Long> {
 
     /*
 
@@ -45,8 +45,5 @@ public interface MantenimientoRepository extends BaseRepository<Mantenimiento, L
     long countByVehiculoId(Long vehiculoId);
 
     */
-
-
-
 
 }

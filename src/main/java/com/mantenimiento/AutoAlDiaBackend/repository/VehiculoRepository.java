@@ -2,7 +2,6 @@ package com.mantenimiento.AutoAlDiaBackend.repository;
 
 import com.mantenimiento.AutoAlDiaBackend.model.Documento;
 import com.mantenimiento.AutoAlDiaBackend.model.Vehiculo;
-import com.mantenimiento.AutoAlDiaBackend.repository.Base.BaseRepository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -10,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface VehiculoRepository extends BaseRepository<Vehiculo, Long> {
+public interface VehiculoRepository extends JpaRepository<Vehiculo, Long> {
 
     // Buscar todos los vehiculos de un usuario
     List<Vehiculo> findByUsuarioId(Long usuarioId);

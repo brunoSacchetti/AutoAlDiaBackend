@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Repository
-public interface RecordatorioMantenimientoRepository extends BaseRepository<RecordatorioMantenimiento, Long> {
+public interface RecordatorioMantenimientoRepository extends JpaRepository<RecordatorioMantenimiento, Long> {
     /*
     // Buscar todos los recordatorios de un vehiculo
     List<RecordatorioMantenimiento> findByVehiculoId(Long vehiculoId);
