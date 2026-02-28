@@ -1,6 +1,5 @@
 package com.mantenimiento.AutoAlDiaBackend.controller;
 
-import com.mantenimiento.AutoAlDiaBackend.controller.Base.BaseController;
 import com.mantenimiento.AutoAlDiaBackend.model.Usuario;
 import com.mantenimiento.AutoAlDiaBackend.model.Vehiculo;
 import com.mantenimiento.AutoAlDiaBackend.service.UsuarioService;
@@ -41,6 +40,12 @@ public class VehiculoController {
 
     @PutMapping("/actualizar/{id}")
     public ResponseEntity<Vehiculo> actualizar(@PathVariable Long id, @RequestBody Vehiculo vehiculo) {
+
+        System.out.println("=== ACTUALIZAR Vehículo ===");
+        System.out.println("ID del path: " + id);
+        System.out.println("Marca recibida: " + vehiculo.getMarca());
+        System.out.println("Usuario ID recibido: " + (vehiculo.getUsuario() != null ? vehiculo.getUsuario().getId() : "null"));
+
         try {
             Vehiculo actualizado = vehiculoService.actualizar(id, vehiculo);
             return ResponseEntity.ok(actualizado);

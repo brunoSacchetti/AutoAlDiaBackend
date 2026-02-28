@@ -1,5 +1,6 @@
 package com.mantenimiento.AutoAlDiaBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,10 +22,16 @@ public class Usuario extends BaseEntity {
     private String email;
 
     @Column(nullable = false)
+    @JsonIgnore  // NO exponer el password en JSON
     private String password;
 
     @Column(nullable = false, length = 100)
     private String nombre;
+
+    // Relacion 1 a muchos con VEHICULO
+    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
+    private List<Vehiculo> vehiculos = new ArrayList<>();
 
     public String getEmail() {
         return email;
@@ -58,9 +65,7 @@ public class Usuario extends BaseEntity {
         this.vehiculos = vehiculos;
     }
 
-    // Relacion 1 a muchos con VEHICULO
-    @OneToMany(mappedBy = "usuario", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<Vehiculo> vehiculos = new ArrayList<>();
+
 
 
 

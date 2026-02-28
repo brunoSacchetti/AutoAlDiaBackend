@@ -1,5 +1,6 @@
 package com.mantenimiento.AutoAlDiaBackend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -44,14 +45,17 @@ public class Vehiculo extends BaseEntity{
 
     // Relacion 1 a mychos con MANTENIMIENTO
     @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Mantenimiento> mantenimiento = new ArrayList<>();
 
     // Relacion 1 a mychos con RECORDATORIO MANTENIMIENTO
     @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<RecordatorioMantenimiento> recordatorioMantenimiento = new ArrayList<>();
 
     // Relacion 1 a mychos con DOCUMENTO
     @OneToMany(mappedBy = "vehiculo", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnore
     private List<Documento> documento = new ArrayList<>();
 
     public Usuario getUsuario() {

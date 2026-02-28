@@ -1,6 +1,5 @@
 package com.mantenimiento.AutoAlDiaBackend.controller;
 
-import com.mantenimiento.AutoAlDiaBackend.controller.Base.BaseController;
 import com.mantenimiento.AutoAlDiaBackend.model.Usuario;
 import com.mantenimiento.AutoAlDiaBackend.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
