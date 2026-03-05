@@ -1,5 +1,7 @@
 package com.mantenimiento.AutoAlDiaBackend.controller;
 
+import com.mantenimiento.AutoAlDiaBackend.dto.UsuarioCreateDTO;
+import com.mantenimiento.AutoAlDiaBackend.dto.UsuarioResponseDTO;
 import com.mantenimiento.AutoAlDiaBackend.model.Usuario;
 import com.mantenimiento.AutoAlDiaBackend.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,22 +20,22 @@ public class UsuarioController {
 
     // CRUD Básico
     @PostMapping("/crear")
-    public ResponseEntity<Usuario> crear(@RequestBody Usuario usuario) {
-        Usuario creado = usuarioService.crear(usuario);
+    public ResponseEntity<UsuarioResponseDTO> crear(@RequestBody UsuarioCreateDTO usuarioDTO) {
+        UsuarioResponseDTO creado = usuarioService.crearDesdeDTO(usuarioDTO);
         System.out.println("Usuario creado con éxito");
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
     @GetMapping("/obtener/{id}")
-    public ResponseEntity<Usuario> obtenerPorId(@PathVariable Long id) {
-        return usuarioService.obtenerPorId(id)
+    public ResponseEntity<UsuarioResponseDTO> obtenerPorId(@PathVariable Long id) {
+        return usuarioService.obtenerPorIdDTO(id)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/obtenerTodos")
-    public ResponseEntity<List<Usuario>> obtenerTodos() {
-        return ResponseEntity.ok(usuarioService.obtenerTodos());
+    public ResponseEntity<List<UsuarioResponseDTO>> obtenerTodos() {
+        return ResponseEntity.ok(usuarioService.obtenerTodosDTO());
     }
 
     @PutMapping("/actualizar/{id}")

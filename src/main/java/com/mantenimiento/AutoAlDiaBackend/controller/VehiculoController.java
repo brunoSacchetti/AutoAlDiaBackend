@@ -67,7 +67,7 @@ public class VehiculoController {
         }
     }
 
-    /*
+
     @GetMapping("/existeVehiculo/{id}")
     public ResponseEntity<Boolean> existe(@PathVariable Long id) {
         return ResponseEntity.ok(vehiculoService.existe(id));
@@ -78,7 +78,7 @@ public class VehiculoController {
     public ResponseEntity<List<Vehiculo>> obtenerPorUsuario(@PathVariable Long usuarioId) {
         return ResponseEntity.ok(vehiculoService.obtenerPorUsuarioId(usuarioId));
     }
-
+    /*
     @GetMapping("/usuarioVehiculo/{usuarioId}/ordenado")
     public ResponseEntity<List<Vehiculo>> obtenerPorUsuarioOrdenado(@PathVariable Long usuarioId) {
         return ResponseEntity.ok(vehiculoService.obtenerPorUsuarioIdOrdenado(usuarioId));
