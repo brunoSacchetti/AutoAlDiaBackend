@@ -1,5 +1,7 @@
 package com.mantenimiento.AutoAlDiaBackend.controller;
 
+import com.mantenimiento.AutoAlDiaBackend.dto.VehiculoCreateDTO;
+import com.mantenimiento.AutoAlDiaBackend.dto.VehiculoResponseDTO;
 import com.mantenimiento.AutoAlDiaBackend.model.Usuario;
 import com.mantenimiento.AutoAlDiaBackend.model.Vehiculo;
 import com.mantenimiento.AutoAlDiaBackend.service.UsuarioService;
@@ -20,26 +22,27 @@ public class VehiculoController {
 
 
     @PostMapping("/crear")
-    public ResponseEntity<Vehiculo> crear(@RequestBody Vehiculo vehiculo) {
-        Vehiculo creado = vehiculoService.crear(vehiculo);
+    public ResponseEntity<VehiculoResponseDTO> crear(@RequestBody VehiculoCreateDTO vehiculoDTO) {
+        VehiculoResponseDTO creado = vehiculoService.crearDesdeDTO(vehiculoDTO);
         System.out.println("Vehículo creado con éxito");
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
     @GetMapping("/obtener/{id}")
-    public ResponseEntity<Vehiculo> obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity<VehiculoResponseDTO> obtenerPorId(@PathVariable Long id) {
         return vehiculoService.obtenerPorId(id)
-                .map(ResponseEntity::ok)
+                .map(v -> ResponseEntity.ok(vehiculoService.convertirAResponseDTO(v)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/obtenerTodos")
-    public ResponseEntity<List<Vehiculo>> obtenerTodos() {
-        return ResponseEntity.ok(vehiculoService.obtenerTodos());
+    public ResponseEntity<List<VehiculoResponseDTO>> obtenerTodos() {
+        List<Vehiculo> vehiculos = vehiculoService.obtenerTodos();
+        return ResponseEntity.ok(vehiculoService.convertirListaAResponseDTO(vehiculos));
     }
 
     @PutMapping("/actualizar/{id}")
-    public ResponseEntity<Vehiculo> actualizar(@PathVariable Long id, @RequestBody Vehiculo vehiculo) {
+    public ResponseEntity<VehiculoResponseDTO> actualizar(@PathVariable Long id, @RequestBody Vehiculo vehiculo) {
 
         System.out.println("=== ACTUALIZAR Vehículo ===");
         System.out.println("ID del path: " + id);
@@ -48,7 +51,7 @@ public class VehiculoController {
 
         try {
             Vehiculo actualizado = vehiculoService.actualizar(id, vehiculo);
-            return ResponseEntity.ok(actualizado);
+            return ResponseEntity.ok(vehiculoService.convertirAResponseDTO(actualizado));
         } catch (RuntimeException error) {
             return ResponseEntity.notFound().build();
         }
