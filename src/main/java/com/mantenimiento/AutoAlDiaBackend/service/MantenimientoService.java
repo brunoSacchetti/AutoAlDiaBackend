@@ -1,8 +1,12 @@
 package com.mantenimiento.AutoAlDiaBackend.service;
 
+import com.mantenimiento.AutoAlDiaBackend.dto.MantenimientoCreateDTO;
+import com.mantenimiento.AutoAlDiaBackend.dto.MantenimientoResponseDTO;
 import com.mantenimiento.AutoAlDiaBackend.model.Mantenimiento;
+import com.mantenimiento.AutoAlDiaBackend.model.Vehiculo;
 import com.mantenimiento.AutoAlDiaBackend.model.enums.TipoServicio;
 import com.mantenimiento.AutoAlDiaBackend.repository.MantenimientoRepository;
+import com.mantenimiento.AutoAlDiaBackend.repository.VehiculoRepository;
 import com.mantenimiento.AutoAlDiaBackend.service.interfaz.MantenimientoServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,12 +15,16 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class MantenimientoService implements MantenimientoServiceInterface {
 
     @Autowired
     private MantenimientoRepository mantenimientoRepository;
+
+    @Autowired
+    private VehiculoRepository vehiculoRepository;
 
     @Override
     public Mantenimiento crear(Mantenimiento registro) {
@@ -105,5 +113,45 @@ public class MantenimientoService implements MantenimientoServiceInterface {
         return 1;
     }
 
+    // Métodos DTO
+    public MantenimientoResponseDTO crearDesdeDTO(MantenimientoCreateDTO dto) {
+        Vehiculo vehiculo = vehiculoRepository.findById(dto.getVehiculoId())
+                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado con ID: " + dto.getVehiculoId()));
+
+        Mantenimiento mantenimiento = new Mantenimiento();
+        mantenimiento.setVehiculo(vehiculo);
+        mantenimiento.setTipoServicio(dto.getTipoServicio());
+        mantenimiento.setDescripcion(dto.getDescripcion());
+        mantenimiento.setFecha_mantenimiento(dto.getFecha_mantenimiento());
+        mantenimiento.setKm_al_servicio(dto.getKm_al_servicio());
+        mantenimiento.setCosto(dto.getCosto());
+        mantenimiento.setLugar(dto.getLugar());
+        mantenimiento.setUrl_foto_recibo(dto.getUrl_foto_recibo());
+
+        Mantenimiento mantenimientoGuardado = mantenimientoRepository.save(mantenimiento);
+        return convertirAResponseDTO(mantenimientoGuardado);
+    }
+
+    public MantenimientoResponseDTO convertirAResponseDTO(Mantenimiento mantenimiento) {
+        MantenimientoResponseDTO dto = new MantenimientoResponseDTO();
+        dto.setId(mantenimiento.getId());
+        dto.setVehiculoId(mantenimiento.getVehiculo().getId());
+        dto.setTipoServicio(mantenimiento.getTipoServicio());
+        dto.setDescripcion(mantenimiento.getDescripcion());
+        dto.setFecha_mantenimiento(mantenimiento.getFecha_mantenimiento());
+        dto.setKm_al_servicio(mantenimiento.getKm_al_servicio());
+        dto.setCosto(mantenimiento.getCosto());
+        dto.setLugar(mantenimiento.getLugar());
+        dto.setUrl_foto_recibo(mantenimiento.getUrl_foto_recibo());
+        dto.setCreatedAt(mantenimiento.getCreatedAt());
+        dto.setUpdatedAt(mantenimiento.getUpdatedAt());
+        return dto;
+    }
+
+    public List<MantenimientoResponseDTO> convertirListaAResponseDTO(List<Mantenimiento> mantenimientos) {
+        return mantenimientos.stream()
+                .map(this::convertirAResponseDTO)
+                .collect(Collectors.toList());
+    }
 
 }

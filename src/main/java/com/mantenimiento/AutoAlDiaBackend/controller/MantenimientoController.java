@@ -1,5 +1,7 @@
 package com.mantenimiento.AutoAlDiaBackend.controller;
 
+import com.mantenimiento.AutoAlDiaBackend.dto.MantenimientoCreateDTO;
+import com.mantenimiento.AutoAlDiaBackend.dto.MantenimientoResponseDTO;
 import com.mantenimiento.AutoAlDiaBackend.model.Mantenimiento;
 import com.mantenimiento.AutoAlDiaBackend.model.RecordatorioMantenimiento;
 import com.mantenimiento.AutoAlDiaBackend.service.MantenimientoService;
@@ -18,29 +20,30 @@ public class MantenimientoController{
     private MantenimientoService mantenimientoService;
 
     @PostMapping("/crearMantenimiento")
-    public ResponseEntity<Mantenimiento> crear(@RequestBody Mantenimiento registro) {
-        Mantenimiento creado = mantenimientoService.crear(registro);
+    public ResponseEntity<MantenimientoResponseDTO> crear(@RequestBody MantenimientoCreateDTO registroDTO) {
+        MantenimientoResponseDTO creado = mantenimientoService.crearDesdeDTO(registroDTO);
         System.out.println("Registro de mantenimiento creado con éxito");
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
     @GetMapping("/obtenerMantenimiento/{id}")
-    public ResponseEntity<Mantenimiento> obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity<MantenimientoResponseDTO> obtenerPorId(@PathVariable Long id) {
         return mantenimientoService.obtenerPorId(id)
-                .map(ResponseEntity::ok)
+                .map(m -> ResponseEntity.ok(mantenimientoService.convertirAResponseDTO(m)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/obtenerAllMantenimientos")
-    public ResponseEntity<List<Mantenimiento>> obtenerTodos() {
-        return ResponseEntity.ok(mantenimientoService.obtenerTodos());
+    public ResponseEntity<List<MantenimientoResponseDTO>> obtenerTodos() {
+        List<Mantenimiento> mantenimientos = mantenimientoService.obtenerTodos();
+        return ResponseEntity.ok(mantenimientoService.convertirListaAResponseDTO(mantenimientos));
     }
 
     @PutMapping("/actualizarMantenimiento/{id}")
-    public ResponseEntity<Mantenimiento> actualizar(@PathVariable Long id, @RequestBody Mantenimiento registro) {
+    public ResponseEntity<MantenimientoResponseDTO> actualizar(@PathVariable Long id, @RequestBody Mantenimiento registro) {
         try {
             Mantenimiento actualizado = mantenimientoService.actualizar(id, registro);
-            return ResponseEntity.ok(actualizado);
+            return ResponseEntity.ok(mantenimientoService.convertirAResponseDTO(actualizado));
         } catch (RuntimeException error) {
             return ResponseEntity.notFound().build();
         }
