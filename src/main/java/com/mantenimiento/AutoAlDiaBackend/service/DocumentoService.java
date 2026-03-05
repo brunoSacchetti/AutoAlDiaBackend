@@ -1,8 +1,12 @@
 package com.mantenimiento.AutoAlDiaBackend.service;
 
+import com.mantenimiento.AutoAlDiaBackend.dto.DocumentoCreateDTO;
+import com.mantenimiento.AutoAlDiaBackend.dto.DocumentoResponseDTO;
 import com.mantenimiento.AutoAlDiaBackend.model.Documento;
+import com.mantenimiento.AutoAlDiaBackend.model.Vehiculo;
 import com.mantenimiento.AutoAlDiaBackend.model.enums.TipoDocumento;
 import com.mantenimiento.AutoAlDiaBackend.repository.DocumentoRepository;
+import com.mantenimiento.AutoAlDiaBackend.repository.VehiculoRepository;
 import com.mantenimiento.AutoAlDiaBackend.service.interfaz.DocumentoServiceInterface;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -10,12 +14,16 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DocumentoService implements DocumentoServiceInterface {
 
     @Autowired
     private DocumentoRepository documentoRepository;
+
+    @Autowired
+    private VehiculoRepository vehiculoRepository;
 
     @Override
     public Documento crear(Documento documento) {
@@ -87,5 +95,39 @@ public class DocumentoService implements DocumentoServiceInterface {
         return null;
     }
 
+    // Métodos DTO
+    public DocumentoResponseDTO crearDesdeDTO(DocumentoCreateDTO dto) {
+        Vehiculo vehiculo = vehiculoRepository.findById(dto.getVehiculoId())
+                .orElseThrow(() -> new RuntimeException("Vehículo no encontrado con ID: " + dto.getVehiculoId()));
+
+        Documento documento = new Documento();
+        documento.setVehiculo(vehiculo);
+        documento.setTipoDocumento(dto.getTipoDocumento());
+        documento.setFecha_expiro(dto.getFecha_expiro());
+        documento.setUrl_foto(dto.getUrl_foto());
+        documento.setNotas(dto.getNotas());
+
+        Documento documentoGuardado = documentoRepository.save(documento);
+        return convertirAResponseDTO(documentoGuardado);
+    }
+
+    public DocumentoResponseDTO convertirAResponseDTO(Documento documento) {
+        DocumentoResponseDTO dto = new DocumentoResponseDTO();
+        dto.setId(documento.getId());
+        dto.setVehiculoId(documento.getVehiculo().getId());
+        dto.setTipoDocumento(documento.getTipoDocumento());
+        dto.setFecha_expiro(documento.getFecha_expiro());
+        dto.setUrl_foto(documento.getUrl_foto());
+        dto.setNotas(documento.getNotas());
+        dto.setCreatedAt(documento.getCreatedAt());
+        dto.setUpdatedAt(documento.getUpdatedAt());
+        return dto;
+    }
+
+    public List<DocumentoResponseDTO> convertirListaAResponseDTO(List<Documento> documentos) {
+        return documentos.stream()
+                .map(this::convertirAResponseDTO)
+                .collect(Collectors.toList());
+    }
 
 }

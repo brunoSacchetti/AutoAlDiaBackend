@@ -1,5 +1,7 @@
 package com.mantenimiento.AutoAlDiaBackend.controller;
 
+import com.mantenimiento.AutoAlDiaBackend.dto.DocumentoCreateDTO;
+import com.mantenimiento.AutoAlDiaBackend.dto.DocumentoResponseDTO;
 import com.mantenimiento.AutoAlDiaBackend.model.Documento;
 import com.mantenimiento.AutoAlDiaBackend.service.DocumentoService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,29 +18,30 @@ public class DocumentoController {
     private DocumentoService documentoService;
 
     @PostMapping("/crearDocumento")
-    public ResponseEntity<Documento> crear(@RequestBody Documento documento) {
-        Documento creado = documentoService.crear(documento);
+    public ResponseEntity<DocumentoResponseDTO> crear(@RequestBody DocumentoCreateDTO documentoDTO) {
+        DocumentoResponseDTO creado = documentoService.crearDesdeDTO(documentoDTO);
         System.out.println("Documento creado con éxito");
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
     @GetMapping("/obtenerDocumento/{id}")
-    public ResponseEntity<Documento> obtenerPorId(@PathVariable Long id) {
+    public ResponseEntity<DocumentoResponseDTO> obtenerPorId(@PathVariable Long id) {
         return documentoService.obtenerPorId(id)
-                .map(ResponseEntity::ok)
+                .map(d -> ResponseEntity.ok(documentoService.convertirAResponseDTO(d)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
     @GetMapping("/obtenerAllDocumento")
-    public ResponseEntity<List<Documento>> obtenerTodos() {
-        return ResponseEntity.ok(documentoService.obtenerTodos());
+    public ResponseEntity<List<DocumentoResponseDTO>> obtenerTodos() {
+        List<Documento> documentos = documentoService.obtenerTodos();
+        return ResponseEntity.ok(documentoService.convertirListaAResponseDTO(documentos));
     }
 
     @PutMapping("/actualizarDocumento/{id}")
-    public ResponseEntity<Documento> actualizar(@PathVariable Long id, @RequestBody Documento documento) {
+    public ResponseEntity<DocumentoResponseDTO> actualizar(@PathVariable Long id, @RequestBody Documento documento) {
         try {
             Documento actualizado = documentoService.actualizar(id, documento);
-            return ResponseEntity.ok(actualizado);
+            return ResponseEntity.ok(documentoService.convertirAResponseDTO(actualizado));
         } catch (RuntimeException error) {
             return ResponseEntity.notFound().build();
         }
