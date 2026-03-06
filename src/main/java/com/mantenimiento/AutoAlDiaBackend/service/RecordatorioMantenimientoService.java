@@ -65,32 +65,27 @@ public class RecordatorioMantenimientoService implements RecordatorioMantenimien
     // Métodos personalizados
     @Override
     public List<RecordatorioMantenimiento> obtenerPorVehiculoId(Long vehiculoId) {
-        //return recordatorioRepository.findByVehiculoId(vehiculoId);
-        return null;
+        return recordatorioRepository.findByVehiculoId(vehiculoId);
     }
 
     @Override
     public List<RecordatorioMantenimiento> obtenerPorVehiculoIdYEstado(Long vehiculoId, EstadoRecordatorio estado) {
-        //return recordatorioRepository.findByVehiculoIdAndEstado(vehiculoId, estado);
-        return null;
+        return recordatorioRepository.findByVehiculoIdAndEstado(vehiculoId, estado);
     }
 
     @Override
     public List<RecordatorioMantenimiento> verificarRecordatoriosPorKm(Long vehiculoId, Integer kmActual) {
-        //return recordatorioRepository.findRecordatoriosPorKm(vehiculoId, kmActual);
-        return null;
+        return recordatorioRepository.findRecordatoriosPorKm(vehiculoId, kmActual);
     }
 
     @Override
     public List<RecordatorioMantenimiento> verificarRecordatoriosPorFecha(Long vehiculoId, LocalDate fechaActual) {
-        //return recordatorioRepository.findRecordatoriosPorFecha(vehiculoId, fechaActual);
-        return null;
+        return recordatorioRepository.findRecordatoriosPorFecha(vehiculoId, fechaActual);
     }
 
     @Override
     public List<RecordatorioMantenimiento> obtenerRecordatoriosActivosPorUsuario(Long usuarioId) {
-        //return recordatorioRepository.findRecordatoriosActivosPorUsuario(usuarioId);
-        return null;
+        return recordatorioRepository.findRecordatoriosActivosPorUsuario(usuarioId);
     }
 
     // Métodos DTO

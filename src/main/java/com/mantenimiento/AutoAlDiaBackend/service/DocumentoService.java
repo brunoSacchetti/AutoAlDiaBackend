@@ -65,34 +65,29 @@ public class DocumentoService implements DocumentoServiceInterface {
     // Métodos personalizados
     @Override
     public List<Documento> obtenerPorVehiculoId(Long vehiculoId) {
-        //return documentoRepository.findByVehiculoId(vehiculoId);
-        return null;
+        return documentoRepository.findByVehiculoId(vehiculoId);
     }
 
     @Override
     public List<Documento> obtenerPorVehiculoIdYTipo(Long vehiculoId, TipoDocumento tipo) {
-        //return documentoRepository.findByVehiculoIdAndTipo(vehiculoId, tipo);
-        return null;
+        return documentoRepository.findByVehiculoIdAndTipoDocumento(vehiculoId, tipo);
     }
 
     @Override
     public List<Documento> obtenerDocumentosVencidos(Long vehiculoId) {
-        //return documentoRepository.findDocumentosVencidos(vehiculoId, LocalDate.now());
-        return null;
+        return documentoRepository.findDocumentosVencidos(vehiculoId, LocalDate.now());
     }
 
     @Override
     public List<Documento> obtenerDocumentosPorVencer(Long vehiculoId, int diasAnticipacion) {
         LocalDate fechaActual = LocalDate.now();
         LocalDate fechaLimite = fechaActual.plusDays(diasAnticipacion);
-        //return documentoRepository.findDocumentosPorVencer(vehiculoId, fechaActual, fechaLimite);
-        return null;
+        return documentoRepository.findDocumentosPorVencer(vehiculoId, fechaActual, fechaLimite);
     }
 
     @Override
     public List<Documento> obtenerDocumentosVencidosPorUsuario(Long usuarioId) {
-        //return documentoRepository.findDocumentosVencidosPorUsuario(usuarioId, LocalDate.now());
-        return null;
+        return documentoRepository.findDocumentosVencidosPorUsuario(usuarioId, LocalDate.now());
     }
 
     // Métodos DTO

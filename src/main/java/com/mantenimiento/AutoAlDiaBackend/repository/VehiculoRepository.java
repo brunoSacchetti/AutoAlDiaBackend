@@ -1,6 +1,5 @@
 package com.mantenimiento.AutoAlDiaBackend.repository;
 
-import com.mantenimiento.AutoAlDiaBackend.model.Documento;
 import com.mantenimiento.AutoAlDiaBackend.model.Vehiculo;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

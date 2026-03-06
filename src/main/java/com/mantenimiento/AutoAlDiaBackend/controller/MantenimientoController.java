@@ -26,20 +26,20 @@ public class MantenimientoController{
         return ResponseEntity.status(HttpStatus.CREATED).body(creado);
     }
 
-    @GetMapping("/obtenerMantenimiento/{id}")
+    @GetMapping("/obtener/{id}")
     public ResponseEntity<MantenimientoResponseDTO> obtenerPorId(@PathVariable Long id) {
         return mantenimientoService.obtenerPorId(id)
                 .map(m -> ResponseEntity.ok(mantenimientoService.convertirAResponseDTO(m)))
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/obtenerAllMantenimientos")
+    @GetMapping("/obtenerTodos")
     public ResponseEntity<List<MantenimientoResponseDTO>> obtenerTodos() {
         List<Mantenimiento> mantenimientos = mantenimientoService.obtenerTodos();
         return ResponseEntity.ok(mantenimientoService.convertirListaAResponseDTO(mantenimientos));
     }
 
-    @PutMapping("/actualizarMantenimiento/{id}")
+    @PutMapping("/actualizar/{id}")
     public ResponseEntity<MantenimientoResponseDTO> actualizar(@PathVariable Long id, @RequestBody Mantenimiento registro) {
         try {
             Mantenimiento actualizado = mantenimientoService.actualizar(id, registro);
@@ -49,7 +49,7 @@ public class MantenimientoController{
         }
     }
 
-    @DeleteMapping("/eliminarMantenimiento/{id}")
+    @DeleteMapping("/eliminar/{id}")
     public ResponseEntity<Void> eliminar(@PathVariable Long id) {
         try {
             mantenimientoService.eliminar(id);
@@ -59,23 +59,25 @@ public class MantenimientoController{
         }
     }
 
-    /*
+
     @GetMapping("/existe/{id}")
     public ResponseEntity<Boolean> existe(@PathVariable Long id) {
-        return ResponseEntity.ok(registroService.existe(id));
+        return ResponseEntity.ok(mantenimientoService.existe(id));
     }
 
     // Endpoints Específicos
     @GetMapping("/vehiculo/{vehiculoId}")
-    public ResponseEntity<List<RegistroMantenimiento>> obtenerPorVehiculo(@PathVariable Long vehiculoId) {
-        return ResponseEntity.ok(registroService.obtenerPorVehiculoId(vehiculoId));
+    public ResponseEntity<List<Mantenimiento>> obtenerPorVehiculo(@PathVariable Long vehiculoId) {
+        return ResponseEntity.ok(mantenimientoService.obtenerPorVehiculoId(vehiculoId));
     }
+
 
     @GetMapping("/vehiculo/{vehiculoId}/ordenado")
-    public ResponseEntity<List<RegistroMantenimiento>> obtenerPorVehiculoOrdenado(@PathVariable Long vehiculoId) {
-        return ResponseEntity.ok(registroService.obtenerPorVehiculoIdOrdenadoPorFecha(vehiculoId));
+    public ResponseEntity<List<Mantenimiento>> obtenerPorVehiculoOrdenado(@PathVariable Long vehiculoId) {
+        return ResponseEntity.ok(mantenimientoService.obtenerPorVehiculoIdOrdenadoPorFecha(vehiculoId));
     }
 
+    /*
     @GetMapping("/vehiculo/{vehiculoId}/tipo/{tipoServicio}")
     public ResponseEntity<List<RegistroMantenimiento>> obtenerPorTipoServicio(
             @PathVariable Long vehiculoId,

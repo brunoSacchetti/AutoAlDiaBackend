@@ -183,8 +183,8 @@ public class AutoAlDiaBackendApplication {
 
 			// Historial de mantenimientos
 			System.out.println("\n🔍 Historial de mantenimientos:");
-			mantenimientoRepository.findByVehiculoIdOrderByFechaDesc(vehiculo.getId())
-					.forEach(m -> System.out.println("   - " + m.getFecha() + " | " +
+			mantenimientoRepository.findByVehiculoIdOrderByFecha_mantenimientoDesc(vehiculo.getId())
+					.forEach(m -> System.out.println("   - " + m.getFecha_mantenimiento() + " | " +
 							m.getTipoServicio() + " | $" + m.getCosto()));
 
 			// Recordatorios pendientes

@@ -1,20 +1,17 @@
 package com.mantenimiento.AutoAlDiaBackend.repository;
 
-import com.mantenimiento.AutoAlDiaBackend.model.Documento;
 import com.mantenimiento.AutoAlDiaBackend.model.RecordatorioMantenimiento;
 import com.mantenimiento.AutoAlDiaBackend.model.enums.EstadoRecordatorio;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDate;
 import java.util.List;
 
 @Repository
 public interface RecordatorioMantenimientoRepository extends JpaRepository<RecordatorioMantenimiento, Long> {
-    /*
     // Buscar todos los recordatorios de un vehiculo
     List<RecordatorioMantenimiento> findByVehiculoId(Long vehiculoId);
 
@@ -37,10 +34,6 @@ public interface RecordatorioMantenimientoRepository extends JpaRepository<Recor
 
     // Buscar todos los recordatorios activos (pendientes) de un usuario
     @Query("SELECT r FROM RecordatorioMantenimiento r WHERE r.vehiculo.usuario.id = :usuarioId AND r.estado = 'PENDIENTE'")
-    List<RecordatorioMantenimiento> findRecordatoriosActivosPorUsuario(@Param("usuarioId") Long usuarioId); */
-
-
-
-
+    List<RecordatorioMantenimiento> findRecordatoriosActivosPorUsuario(@Param("usuarioId") Long usuarioId);
 
 }

@@ -67,50 +67,43 @@ public class MantenimientoService implements MantenimientoServiceInterface {
 
     @Override
     public List<Mantenimiento> obtenerPorVehiculoId(Long vehiculoId) {
-        //return mantenimientoRepository.findByVehiculoId(vehiculoId);
-        return null;
+        return mantenimientoRepository.findByVehiculoId(vehiculoId);
     }
 
     @Override
     public List<Mantenimiento> obtenerPorVehiculoIdOrdenadoPorFecha(Long vehiculoId) {
-        //return mantenimientoRepository.findByVehiculoIdOrderByFechaDesc(vehiculoId);
-        return null;
+        return mantenimientoRepository.findByVehiculoIdOrderByFecha_mantenimientoDesc(vehiculoId);
     }
 
     @Override
     public List<Mantenimiento> obtenerPorVehiculoIdYTipoServicio(Long vehiculoId, TipoServicio tipoServicio) {
-        //return mantenimientoRepository.findByVehiculoIdAndTipoServicio(vehiculoId, tipoServicio);
-        return null;
+        return mantenimientoRepository.findByVehiculoIdAndTipoServicio(vehiculoId, tipoServicio);
     }
 
     @Override
     public List<Mantenimiento> obtenerEntreFechas(Long vehiculoId, LocalDate fechaInicio, LocalDate fechaFin) {
-        //return mantenimientoRepository.findByVehiculoIdAndFechaBetween(vehiculoId, fechaInicio, fechaFin);
-        return null;
+        return mantenimientoRepository.findByVehiculoIdAndFecha_mantenimientoBetween(vehiculoId, fechaInicio, fechaFin);
     }
 
     @Override
     public BigDecimal calcularCostoTotalPorVehiculo(Long vehiculoId) {
-        //return mantenimientoRepository.calcularCostoTotalPorVehiculo(vehiculoId);
-        return null;
+        return mantenimientoRepository.calcularCostoTotalPorVehiculo(vehiculoId);
     }
 
     @Override
     public BigDecimal calcularCostoEnRango(Long vehiculoId, LocalDate fechaInicio, LocalDate fechaFin) {
-        //return mantenimientoRepository.calcularCostoTotalEnRango(vehiculoId, fechaInicio, fechaFin);
-        return null;
+        return mantenimientoRepository.calcularCostoTotalEnRango(vehiculoId, fechaInicio, fechaFin);
     }
 
     @Override
     public Mantenimiento obtenerUltimoMantenimientoPorTipo(Long vehiculoId, TipoServicio tipoServicio) {
-        //return mantenimientoRepository.findFirstByVehiculoIdAndTipoServicioOrderByFechaDesc(vehiculoId, tipoServicio);
-        return null;
+        List<Mantenimiento> resultados = mantenimientoRepository.findFirstByVehiculoIdAndTipoServicioOrderByFecha_mantenimientoDesc(vehiculoId, tipoServicio);
+        return resultados.isEmpty() ? null : resultados.get(0);
     }
 
     @Override
     public long contarPorVehiculoId(Long vehiculoId) {
-        //return mantenimientoRepository.countByVehiculoId(vehiculoId);
-        return 1;
+        return mantenimientoRepository.countByVehiculoId(vehiculoId);
     }
 
     // Métodos DTO
